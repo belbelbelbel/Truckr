@@ -30,7 +30,7 @@ export default function ProductDisplay() {
           {categoryTabs.map((items) => (
             <CustomButton
               key={items.id}
-              className={`px-3 py-3 shadow cursor-pointer border ${items.id === currentTab
+              className={`px-3 py-3 font-bold shadow cursor-pointer border ${items.id === currentTab
                 ? 'font-semibold bg-[#2C90FE] border-0 text-white'
                 : ''
                 }`}
@@ -41,7 +41,7 @@ export default function ProductDisplay() {
           ))}
         </div>
 
-        <div className='w-full  mt-14'>
+        <div className='w-full  mt-28'>
           <h2 className='text-3xl font-bold text-center mb-6'>Popular Trucks and Equipments</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 w-[70%] mx-auto gap-8 mt-4">
             {filteredVehicles.slice(0, 4).map((vehicle) => (
