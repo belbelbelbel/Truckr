@@ -461,13 +461,13 @@ export default function HomeScreen() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 bg-blue-600 text-white">
+      <section className="py-16 bg-black text-black">
         <div className="container mx-auto px-4 text-center">
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100">
+            <Button size="lg" variant="secondary" className="border-white  hover:bg-white hover:text-blue-600">
               Rent A Truck
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+            <Button size="lg" variant="outline" className="border-white  hover:bg-white hover:text-blue-600">
               List A Truck
             </Button>
           </div>

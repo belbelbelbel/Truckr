@@ -10,13 +10,13 @@ import Link from "next/link"
 import Image from "next/image"
 import { trucksData } from "@/constant/truck-data"
 
-interface TruckDetailPageProps {
-  params: {
-    id: string
-  }
-}
+// interface TruckDetailPageProps {
+//   params: {
+//     id: any
+//   }
+// }
 
-export default function TruckDetailPage({ params }: TruckDetailPageProps) {
+export default function TruckDetailPage({ params }: any) {
   const truck = trucksData.find((t) => t.id === params.id) || trucksData[0]
   const [selectedImage, setSelectedImage] = useState(0)
   const [rentalPeriod, setRentalPeriod] = useState("Select Date")
