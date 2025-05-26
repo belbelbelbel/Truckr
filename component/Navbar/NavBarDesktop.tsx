@@ -4,7 +4,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import CustomButton from '../utils/CustomButton';
 export default function NavbarDesktop() {
   return (
-    <div className='w-screen h-[4.5rem] flex  justify-center shadow items-center'>
+    <div className='w-screen h-[4.5rem] fixed bg-white flex  justify-center shadow items-center'>
       <div className='w-[86%] mx-auto flex justify-between items-center'>
         <div className='italic font-black text-2xl text-[#3A83D2]'>TRUCKR</div>
         <div className='flex gap-6'>

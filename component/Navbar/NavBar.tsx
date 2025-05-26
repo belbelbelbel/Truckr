@@ -22,7 +22,7 @@ export default function NavBar() {
         <div className='fixed  w-full'>
           <NavbarMobile/>
         </div> :
-        <div>
+        <div className=''>
          <NavbarDesktop/>
         </div>
       }
