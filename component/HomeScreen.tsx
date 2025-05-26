@@ -7,13 +7,13 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Star, MapPin, Search, Truck, Shield, Headphones, User, ShoppingCart, Bell, ArrowRight } from "lucide-react"
+import { Slider } from "@/components/ui/slider"
+import { Star, MapPin, Search, Truck, Shield, Headphones, User, ShoppingCart, ArrowRight, Heart } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import {
   trucksData,
   truckCategories,
-  conditions,
   locations,
   filterTrucks,
   defaultFilters,
@@ -104,6 +104,8 @@ export default function HomeScreen() {
   const [filters, setFilters] = useState<FilterState>(defaultFilters)
   const [searchQuery, setSearchQuery] = useState("")
   const [searchLocation, setSearchLocation] = useState("")
+  const [likedTrucks, setLikedTrucks] = useState<Set<string>>(new Set())
+  const [priceRange, setPriceRange] = useState([0, 100000])
 
   const filteredTrucks = filterTrucks(trucksData, filters)
 
@@ -119,8 +121,9 @@ export default function HomeScreen() {
     setFilters((prev) => ({ ...prev, location }))
   }
 
-  const handlePriceChange = (minPrice: number, maxPrice: number) => {
-    setFilters((prev) => ({ ...prev, minPrice, maxPrice }))
+  const handlePriceChange = (values: number[]) => {
+    setPriceRange(values)
+    setFilters((prev) => ({ ...prev, minPrice: values[0], maxPrice: values[1] }))
   }
 
   const handleSearch = () => {
@@ -135,63 +138,82 @@ export default function HomeScreen() {
     setFilters(defaultFilters)
     setSearchQuery("")
     setSearchLocation("")
+    setPriceRange([0, 100000])
+  }
+
+  const toggleLike = (truckId: string) => {
+    setLikedTrucks((prev) => {
+      const newLiked = new Set(prev)
+      if (newLiked.has(truckId)) {
+        newLiked.delete(truckId)
+      } else {
+        newLiked.add(truckId)
+      }
+      return newLiked
+    })
   }
 
   return (
-    <div className="min-h-screen w-screen  bg-white">
+    <div className="min-h-screen w-screen bg-white font-inter">
       {/* Header */}
       <header className="border-b bg-white text-black sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold text-blue-600">
-            TRUCKR
-          </Link>
-          <div className="flex items-center  ">
-
-            <nav className="hidden md:flex space-x-6">
-              <Link href="/rent" className="text-gray-700 hover:text-blue-600 font-medium">
-                Rent
-              </Link>
-              <Link href="/rent" className="text-gray-700 hover:text-blue-600 font-medium">
-                List
-              </Link>
-              <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium">
-                About us
-              </Link>
-              <Link href="/contact" className="text-gray-700 hover:text-blue-600 font-medium">
-                Contact Us
-              </Link>
-            </nav>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm" className="relative">
-              <ShoppingCart className="h-6 w-6" />
-              <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                0
-              </span>
-            </Button>
-            <Button variant="ghost" className="bg-white" size="lg">
-              <Bell className="h-5 w-5" />
-            </Button>
-            <Link href="/auth/login" className="cursor-pointer">
-              <Button variant="outline" size="lg" className="cursor-pointer">
-                Sign In
-              </Button>
+          <div className="flex items-center space-x-2">
+            {/* <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+              <span className="text-white font-bold text-sm">Logo</span>
+            </div> */}
+            <Link href="/" className="text-2xl font-bold text-blue-600">
+              TRUCKR
             </Link>
+          </div>
+
+          <nav className="hidden md:flex space-x-8">
+            <Link href="/rent" className="text-gray-700 hover:text-blue-600 font-medium">
+              Rent
+            </Link>
+            <Link href="/list" className="text-gray-700 hover:text-blue-600 font-medium">
+              List
+            </Link>
+            <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium">
+              About us
+            </Link>
+            <Link href="/contact" className="text-gray-700 hover:text-blue-600 font-medium">
+              Contact Us
+            </Link>
+          </nav>
+
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <span className="text-gray-700 font-medium">My Cart</span>
+              <Button variant="ghost" size="sm" className="relative">
+                <ShoppingCart className="h-5 w-5" />
+                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  0
+                </span>
+              </Button>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                <span className="text-white text-sm">D</span>
+              </div>
+              <div className="w-6 h-6 bg-gray-300 rounded flex items-center justify-center">
+                <span className="text-xs">☰</span>
+              </div>
+            </div>
           </div>
         </div>
       </header>
 
-      <section className="relative bg-gradient-to-r w-full  text-white flex  items-center h-[55rem] md:h-[36rem] " style={{
-        backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
-        backgroundSize: 'cover',
-        // backgroundPosition: 'center',
-        // backgroundAttachment: 'fixed',
-        backgroundRepeat: 'no-repeat'
-      }}>
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-r w-full text-white flex items-center h-[55rem] md:h-[36rem]"     style={{
+            backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}>
         <div className="absolute inset-0 bg-black/70"></div>
         <div className="relative container mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-4">
-            Fast, Reliable, <span className="text-blue-400">Right Around</span>
+            <span className="text-blue-400">Fast, Reliable,</span> Right Around
             <br />
             <span className="text-blue-400">the Corner.</span>
           </h1>
@@ -214,7 +236,7 @@ export default function HomeScreen() {
               <div className="text-left">
                 <label className="block text-gray-700 text-sm font-medium mb-2">Location</label>
                 <Select value={searchLocation} onValueChange={setSearchLocation}>
-                  <SelectTrigger className="text-black w-full">
+                  <SelectTrigger className="text-black w-full h-12">
                     <SelectValue placeholder="Where do you want to rent?" />
                   </SelectTrigger>
                   <SelectContent className="text-black">
@@ -241,7 +263,7 @@ export default function HomeScreen() {
       </section>
 
       {/* Browse by Category */}
-      <section className="pt-12 bg-gray0">
+      <section className="pt-12 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-black mb-12">Browse by Category</h2>
           <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -249,7 +271,9 @@ export default function HomeScreen() {
               <Button
                 key={category}
                 variant={filters.category === category ? "default" : "outline"}
-                className={`px-6 py-3 ${filters.category === category ? "bg-blue-600 text-white" : "text-gray-700"}`}
+                className={`px-6 py-3 rounded-lg ${
+                  filters.category === category ? "bg-blue-600 text-white" : "text-gray-700 border-gray-300"
+                }`}
                 onClick={() => handleCategoryChange(category)}
               >
                 {category}
@@ -260,98 +284,74 @@ export default function HomeScreen() {
       </section>
 
       {/* Popular Trucks with Filters */}
-      <section className=" text-black py-10">
+      <section className="text-black py-10">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold">Popular Trucks and Equipments</h2>
-            <div className="flex gap-2">
-              <Button variant="outline" className="text-black" onClick={clearFilters}>
-                Clear Filters
-              </Button>
-              <Button variant="outline" className="text-black" >View All ({filteredTrucks.length})</Button>
-            </div>
           </div>
 
           <div className="grid lg:grid-cols-4 gap-8">
             {/* Filters Sidebar */}
             <div className="lg:col-span-1">
               <Card className="p-6 sticky top-24">
-                <h3 className="font-bold text-lg mb-4">Filters</h3>
+                <h3 className="font-bold text-lg mb-6 text-black">Filters</h3>
 
                 <div className="space-y-6">
                   <div>
-                    <h4 className="font-semibold mb-3">Categories</h4>
-                    <div className="space-y-2">
+                    <h4 className="font-semibold mb-4 text-black">Categories</h4>
+                    <div className="space-y-3">
                       {truckCategories.map((category) => (
-                        <label key={category} className="flex items-center space-x-2 cursor-pointer">
+                        <label key={category} className="flex items-center space-x-3 cursor-pointer">
                           <input
                             type="checkbox"
-                            name="category"
-                            className="rounded"
+                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                             checked={filters.category === category}
                             onChange={() => handleCategoryChange(category)}
                           />
-                          <span className="text-sm">{category}</span>
+                          <span className="text-sm text-gray-700">{category}</span>
                         </label>
                       ))}
                     </div>
                   </div>
 
-                  {/* <div>
-                    <h4 className="font-semibold mb-3">Condition</h4>
-                    <div className="space-y-2">
-                      {conditions.map((condition) => (
-                        <label key={condition} className="flex items-center space-x-2 cursor-pointer">
-                          <input
-                            type="radio"
-                            name="condition"
-                            className="rounded"
-                            checked={filters.condition === condition}
-                            onChange={() => handleConditionChange(condition)}
-                          />
-                          <span className="text-sm">{condition}</span>
-                        </label>
-                      ))}
+                  <div>
+                    <h4 className="font-semibold mb-4 text-black">Price Range</h4>
+                    <div className="space-y-4">
+                      <div className="px-2">
+                        <Slider
+                          value={priceRange}
+                          onValueChange={handlePriceChange}
+                          max={100000}
+                          min={0}
+                          step={1000}
+                          className="w-full"
+                        />
+                      </div>
+                      <div className="flex justify-between text-sm text-gray-600">
+                        <span>₦{priceRange[0].toLocaleString()}</span>
+                        <span>₦{priceRange[1].toLocaleString()}</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Input
+                          placeholder="Min"
+                          type="number"
+                          value={priceRange[0]}
+                          onChange={(e) => handlePriceChange([Number(e.target.value), priceRange[1]])}
+                          className="text-sm"
+                        />
+                        <Input
+                          placeholder="Max"
+                          type="number"
+                          value={priceRange[1]}
+                          onChange={(e) => handlePriceChange([priceRange[0], Number(e.target.value)])}
+                          className="text-sm"
+                        />
+                      </div>
                     </div>
-                  </div> */}
+                  </div>
 
-                  {/* <div>
-                    <h4 className="font-semibold mb-3">Location</h4>
-                    <Select value={filters.location} onValueChange={handleLocationChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select location" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="All">All Locations</SelectItem>
-                        {locations.map((location) => (
-                          <SelectItem key={location} value={location.split(",")[1]?.trim() || location}>
-                            {location}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div> */}
-
-                  {/* <div>
-                    <h4 className="font-semibold mb-3">Price Range (₦/day)</h4>
-                    <div className="space-y-2">
-                      <Input
-                        placeholder="Min"
-                        type="number"
-                        value={filters.minPrice || ""}
-                        onChange={(e) => handlePriceChange(Number(e.target.value) || 0, filters.maxPrice)}
-                      />
-                      <Input
-                        placeholder="Max"
-                        type="number"
-                        value={filters.maxPrice === 100000 ? "" : filters.maxPrice}
-                        onChange={(e) => handlePriceChange(filters.minPrice, Number(e.target.value) || 100000)}
-                      />
-                    </div>
-                  </div> */}
-
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700" onClick={clearFilters}>
-                    Reset Filters
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white" onClick={clearFilters}>
+                    Apply Filters
                   </Button>
                 </div>
               </Card>
@@ -371,21 +371,32 @@ export default function HomeScreen() {
                   </CardContent>
                 </Card>
               ) : (
-                <div className="grid md:grid-cols-3 gap-6">
+                <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {filteredTrucks.map((truck) => (
-                    <Card key={truck.id} className="overflow-hidden relative  hover:shadow-md transition-shadow">
-                      <div className="">
+                    <Card key={truck.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                      <div className="relative">
                         <Image
                           src={truck.images[0] || "/placeholder.svg"}
                           alt={truck.name}
                           width={300}
                           height={200}
-                          className="w-full h-52 object-contain"
+                          className="w-full h-48 object-contain"
                         />
-                        {/* {truck.verified && <Badge className="absolute top-2 right-2 bg-green-500">Verified</Badge>} */}
-                        <Badge className="absolute top-4 left-3 py-2 px-3 bg-blue-500 rounded-sm">{truck.category}</Badge>
+                        <Badge className="absolute top-3 left-3 bg-blue-600 text-white rounded px-3 py-2">{truck.category}</Badge>
+                        <Button
+                          variant="ghost"
+                          size="lg"
+                          className={`absolute top-3 r right-3 hover:bg-black/60  ${
+                            likedTrucks.has(truck.id) ? "bg-black text-blue-600" : "bg-black/80 text-white"
+                          }`}
+                          onClick={() => toggleLike(truck.id)}
+                        >
+                          <Heart  size={30}
+                            className={` ${likedTrucks.has(truck.id) ? "fill-white text-white" : ""}`}
+                          />
+                        </Button>
                       </div>
-                      <CardContent className="p-4 fllex items-center">
+                     <CardContent className="p-4 fllex items-center">
 
                         <div className="flex items-center text-gray-600 justify-between mb-2">
                           <div className="flex flex-col">
@@ -430,7 +441,7 @@ export default function HomeScreen() {
       </section>
 
       {/* Why Choose TruckR */}
-      <section className="py-16 text-black bg-grday-50">
+      <section className="py-16 text-black bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-4">Why Choose TruckR?</h2>
           <p className="text-center text-gray-600 mb-12">
@@ -450,13 +461,13 @@ export default function HomeScreen() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 bg-black text-black">
+      <section className="py-16 bg-blue-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100">
               Rent A Truck
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-black  hover:text-blue-600">
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
               List A Truck
             </Button>
           </div>
@@ -466,7 +477,7 @@ export default function HomeScreen() {
       {/* Testimonials */}
       <section className="py-16 text-black">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl  font-bold text-center mb-4">What our customers are saying</h2>
+          <h2 className="text-3xl font-bold text-center mb-4">What our customers are saying</h2>
           <p className="text-center text-gray-600 mb-12">
             Hear from TruckR owners and renters who have successfully used TruckR
           </p>
@@ -530,8 +541,12 @@ export default function HomeScreen() {
       </section>
 
       {/* Newsletter CTA */}
-      <section className="py-16 bg-gray-900 text-black relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-800"></div>
+      <section className="py-20 text-black relative overflow-hidden rounded-lg w-[96%] mx-auto"     style={{
+            backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}>
+        <div className="absolute inset-0 bg-black/70"></div>
         <div className="relative container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Can't find what you are looking for?</h2>
           <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
@@ -577,7 +592,7 @@ export default function HomeScreen() {
               </div>
             </div>
 
-            <div className="">
+            <div>
               <h4 className="font-semibold mb-4">Our Contact</h4>
               <div className="space-y-2 text-gray-400">
                 <p>Available Products</p>
