@@ -6,8 +6,8 @@
 
 @font-face {
   font-family: 'myFirstFont';
-  src: url('/assets/font/Raleway/static/Raleway-Medium.ttf') format('woff2');
-  font-weight: 400;
+  src: url('../public/assets/font/Inter/static/Inter_18pt-SemiBold.ttf') format('woff2');
+  font-weight: 100;
   font-style: normal;
   font-display: swap;
 }

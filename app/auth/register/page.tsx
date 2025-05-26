@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
+import { ShoppingCart } from "lucide-react"
 
 export default function RegisterPage() {
   const [step, setStep] = useState(1)
@@ -21,48 +22,53 @@ export default function RegisterPage() {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
         {/* Header */}
-        <div className="absolute top-0 left-0 right-0 bg-white border-b">
-          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <div className="flex items-center space-x-8">
+        <header className="bg-white absolute top-0 w-full  z-50 border-b text-black">
+          <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              {/* <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+              <span className="text-white font-bold text-sm">Logo</span>
+            </div> */}
               <Link href="/" className="text-2xl font-bold text-blue-600">
                 TRUCKR
               </Link>
-              <nav className="hidden md:flex space-x-6">
-                <Link href="/rent" className="text-gray-700 hover:text-blue-600">
-                  Rent
-                </Link>
-                <Link href="/list" className="text-gray-700 hover:text-blue-600">
-                  List
-                </Link>
-                <Link href="/about" className="text-gray-700 hover:text-blue-600">
-                  About us
-                </Link>
-                <Link href="/contact" className="text-gray-700 hover:text-blue-600">
-                  Contact Us
-                </Link>
-              </nav>
             </div>
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm">
-                <span className="mr-2">🛒</span>
-              </Button>
-              <Link href="/auth/login">
-                <Button variant="outline" size="sm">
-                  Sign In
-                </Button>
+
+            <nav className="hidden md:flex space-x-8">
+              <Link href="/rent" className="text-gray-700 hover:text-blue-600 font-medium">
+                Rent
               </Link>
+              <Link href="/list" className="text-gray-700 hover:text-blue-600 font-medium">
+                List
+              </Link>
+              <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium">
+                About us
+              </Link>
+              <Link href="/contact" className="text-gray-700 hover:text-blue-600 font-medium">
+                Contact Us
+              </Link>
+            </nav>
+
+            <div className="flex items-center space-x-4">
+              <Button variant="ghost" size="sm" className="relative">
+                <ShoppingCart className="h-5 w-5" />
+              </Button>
+              <Button variant="outline" size="sm" className="px-6">
+                Sign In
+              </Button>
             </div>
           </div>
-        </div>
+        </header>
 
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('/placeholder.svg?height=800&width=1200')",
+            backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         >
-          <div className="absolute inset-0 bg-black/60"></div>
+          <div className="absolute inset-0 bg-black/70"></div>
         </div>
 
         {/* Account Type Selection */}
@@ -109,45 +115,51 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
       {/* Header */}
-      <div className="absolute top-0 left-0 right-0 bg-white border-b">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-8">
+      <header className="bg-white absolute w-full top-0 z-50 border-b text-black">
+        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            {/* <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+              <span className="text-white font-bold text-sm">Logo</span>
+            </div> */}
             <Link href="/" className="text-2xl font-bold text-blue-600">
               TRUCKR
             </Link>
-            <nav className="hidden md:flex space-x-6">
-              <Link href="/rent" className="text-gray-700 hover:text-blue-600">
-                Rent
-              </Link>
-              <Link href="/list" className="text-gray-700 hover:text-blue-600">
-                List
-              </Link>
-              <Link href="/about" className="text-gray-700 hover:text-blue-600">
-                About us
-              </Link>
-              <Link href="/contact" className="text-gray-700 hover:text-blue-600">
-                Contact Us
-              </Link>
-            </nav>
           </div>
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm">
-              <span className="mr-2">🛒</span>
-            </Button>
-            <Link href="/auth/login">
-              <Button variant="outline" size="sm">
-                Sign In
-              </Button>
+
+          <nav className="hidden md:flex space-x-8">
+            <Link href="/rent" className="text-gray-700 hover:text-blue-600 font-medium">
+              Rent
             </Link>
+            <Link href="/list" className="text-gray-700 hover:text-blue-600 font-medium">
+              List
+            </Link>
+            <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium">
+              About us
+            </Link>
+            <Link href="/contact" className="text-gray-700 hover:text-blue-600 font-medium">
+              Contact Us
+            </Link>
+          </nav>
+
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost" size="sm" className="relative">
+              <ShoppingCart className="h-5 w-5" />
+            </Button>
+            <Button variant="outline" size="sm" className="px-6">
+              Sign In
+            </Button>
           </div>
         </div>
-      </div>
+      </header>
+
 
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: "url('/placeholder.svg?height=800&width=1200')",
+          backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
         }}
       >
         <div className="absolute inset-0 bg-black/60"></div>

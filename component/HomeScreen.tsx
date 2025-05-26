@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Star, MapPin, Search, Truck, Shield, Headphones, User, ShoppingCart, Bell } from "lucide-react"
+import { Star, MapPin, Search, Truck, Shield, Headphones, User, ShoppingCart, Bell, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import {
@@ -143,13 +143,16 @@ export default function HomeScreen() {
       <header className="border-b bg-white text-black sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="text-2xl font-bold text-blue-600">
-              TRUCKR
-            </Link>
+            TRUCKR
+          </Link>
           <div className="flex items-center  ">
-            
+
             <nav className="hidden md:flex space-x-6">
               <Link href="/rent" className="text-gray-700 hover:text-blue-600 font-medium">
                 Rent
+              </Link>
+              <Link href="/rent" className="text-gray-700 hover:text-blue-600 font-medium">
+                List
               </Link>
               <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium">
                 About us
@@ -178,10 +181,9 @@ export default function HomeScreen() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-r w-full from-gray-900 via-gray-800 to-gray-900 text-white py-28" style={{
+      <section className="relative bg-gradient-to-r w-full  text-white flex  items-center h-[55rem] md:h-[36rem] " style={{
         backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
-        backgroundSize: 'contain',
+        backgroundSize: 'cover',
         // backgroundPosition: 'center',
         // backgroundAttachment: 'fixed',
         backgroundRepeat: 'no-repeat'
@@ -371,7 +373,7 @@ export default function HomeScreen() {
               ) : (
                 <div className="grid md:grid-cols-3 gap-6">
                   {filteredTrucks.map((truck) => (
-                    <Card key={truck.id} className="overflow-hidden relative cursor-pointer hover:shadow-md transition-shadow">
+                    <Card key={truck.id} className="overflow-hidden relative  hover:shadow-md transition-shadow">
                       <div className="">
                         <Image
                           src={truck.images[0] || "/placeholder.svg"}
@@ -383,27 +385,40 @@ export default function HomeScreen() {
                         {/* {truck.verified && <Badge className="absolute top-2 right-2 bg-green-500">Verified</Badge>} */}
                         <Badge className="absolute top-4 left-3 py-2 px-3 bg-blue-500 rounded-sm">{truck.category}</Badge>
                       </div>
-                      <CardContent className="p-4">
-                        <h3 className="font-semibold mb-2">{truck.name}</h3>
-                        <div className="flex items-center text-gray-600 mb-2">
-                          <MapPin className="h-4 w-4 mr-1" />
-                          <span className="text-sm">{truck.location}</span>
-                        </div>
-                        <div className="flex items-center justify-between mb-4">
+                      <CardContent className="p-4 fllex items-center">
+
+                        <div className="flex items-center text-gray-600 justify-between mb-2">
+                          <div className="flex flex-col">
+                            <h3 className="font-semibold mb-2">{truck.name}</h3>
+                            <div className="flex items-center">
+                              <MapPin className="h-4 w-4 mr-1" />
+                              <span className="text-sm">{truck.location}</span>
+                            </div>
+                          </div>
                           <div className="flex items-center">
                             <Star className="h-4 w-4 text-yellow-400 fill-current" />
                             <span className="text-sm ml-1">
                               {truck.rating} ({truck.reviews})
                             </span>
                           </div>
-                          <div className="text-right">
+                        </div>
+
+
+                        <div className="flex items-center relative top-10 justify-between mb-4">
+                          <div className="flex items-center">
                             <p className="font-bold text-lg">₦{truck.price.toLocaleString()}</p>
                             <p className="text-sm text-gray-600">/day</p>
                           </div>
+
+                          <Link href={`/trucks/${truck.id}`}>
+                            <Button className="w-full bg-blue-600 hover:bg-blue-700">Rent this Truck 
+                              <div>
+                                <ArrowRight />
+                              </div>
+                            </Button>
+                          </Link>
                         </div>
-                        <Link href={`/trucks/${truck.id}`}>
-                          <Button className="w-full bg-blue-600 hover:bg-blue-700">View Details</Button>
-                        </Link>
+
                       </CardContent>
                     </Card>
                   ))}
