@@ -33,7 +33,7 @@ export default function NewListingPage() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         // Handle form submission
-        router.push("/listings?success=true")
+        router.push("/list?success=true")
     }
 
     const handleFileUpload = (field: "photos" | "ownershipProof", files: FileList | null) => {
@@ -59,9 +59,9 @@ export default function NewListingPage() {
             <header className="bg-white border-b">
                 <div className="container mx-auto px-6 py-4 flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+                        {/* <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
                             <span className="text-white font-bold text-sm">Logo</span>
-                        </div>
+                        </div> */}
                         <Link href="/" className="text-2xl font-bold text-blue-600">
                             TRUCKR
                         </Link>
@@ -104,7 +104,6 @@ export default function NewListingPage() {
                 </div>
             </header>
 
-            {/* Hero Section */}
             <section
                 className="relative bg-gray-800 text-white py-16"
                 style={{
@@ -120,11 +119,9 @@ export default function NewListingPage() {
                 </div>
             </section>
 
-            {/* Form Section */}
             <div className="container mx-auto px-6 py-12">
                 <div className="max-w-2xl mx-auto">
                     <form onSubmit={handleSubmit} className="space-y-8">
-                        {/* Truck Type, Daily Rate, Availability Period - Three Column Layout */}
                         <div className="grid grid-cols-3 gap-6">
                             <div>
                                 <Label className="text-lg font-semibold text-gray-900 mb-3 block">Truck Type</Label>
@@ -280,7 +277,7 @@ export default function NewListingPage() {
                                     type="file"
                                     multiple
                                     accept="image/*"
-                                    className="hidden"
+                                    className=""
                                     id="photos"
                                     onChange={(e) => handleFileUpload("photos", e.target.files)}
                                 />
@@ -300,7 +297,7 @@ export default function NewListingPage() {
                                     type="file"
                                     multiple
                                     accept="image/*"
-                                    className="hidden"
+                                    className=""
                                     id="ownership"
                                     onChange={(e) => handleFileUpload("ownershipProof", e.target.files)}
                                 />

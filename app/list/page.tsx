@@ -160,7 +160,7 @@ export default function ListingsPage() {
 
       <div className="flex">
         {/* Sidebar */}
-        <div className="w-64 bg-white border-r min-h-[50%]">
+        <div className="w-64 bg-white border-r min-h-screen">
           <div className="p-6 space-y-4">
             <div className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 cursor-pointer">
               <User className="h-5 w-5" />

@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import Image from 'next/image'
 import React from 'react'
 
 export default function Footer() {
@@ -20,7 +21,7 @@ export default function Footer() {
 
             {/* Footer */}
             <footer className="bg-gray-900 text-white py-12">
-                <div className="container mx-auto px-4">
+                <div className="container relative mx-auto px-4">
                     <div className="grid md:grid-cols-4 gap-8">
                         <div>
                             <h3 className="text-xl font-bold mb-4">TRUCKR</h3>
@@ -68,6 +69,15 @@ export default function Footer() {
                                 <p>Dump Truck</p>
                             </div>
                         </div>
+                    </div>
+                    <div className="hidden absolute right-20 bottom-10 lg:block">
+                        <Image
+                            src='/assets/footerlogo.png'
+                            alt="Truck illustration"
+                            width={150}
+                            height={100}
+                            className="object-contain"
+                        />
                     </div>
 
                     <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
