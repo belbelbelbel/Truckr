@@ -61,7 +61,7 @@ export function RentSidebar() {
   return (
     <div className="w-64 bg-white border-r min-h-screen">
       <div className="p-6 space-y-2">
-        {menuItems.map((item) => {
+        {menuItems.map((item:any) => {
           const isActive = pathname === item.href
           const Icon = typeof item.icon === "string" ? null : item.icon
 

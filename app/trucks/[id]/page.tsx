@@ -13,13 +13,13 @@ import { toast } from "sonner"
 import Navbar from "@/component/Navbar"
 import { PaymentModals } from "@/components/payments-modals"
 
-interface TruckDetailPageProps {
-  params: {
-    id: string
-  }
-}
+// interface TruckDetailPageProps {
+//   params: {
+//     id: string
+//   }
+// }
 
-export default function TruckDetailPage({ params }: TruckDetailPageProps) {
+export default function TruckDetailPage({ params }: any) {
   const truck = trucksData.find((t) => t.id === params.id) || trucksData[0]
   const [selectedImage, setSelectedImage] = useState(0)
   const [rentalPeriod, setRentalPeriod] = useState("Select Date")
