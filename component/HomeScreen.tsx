@@ -1,5 +1,4 @@
 "use client"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -18,7 +17,11 @@ import {
   filterTrucks,
   defaultFilters,
   type FilterState,
+  testimonials,
+  faqs,
 } from "@/constant/truck-data"
+import Navbar from "./Navbar"
+import Footer from "./Footer"
 
 const features = [
   {
@@ -53,50 +56,6 @@ const features = [
     icon: <Truck className="h-12 w-12 text-blue-600" />,
     title: "Latest Equipment",
     description: "Rent from a fleet of well-maintained trucks and up-to-date equipment to ensure smooth, safe.",
-  },
-]
-
-const testimonials = [
-  {
-    name: "Adebayo Ogundimu",
-    company: "Ogundimu Logistics",
-    rating: 5,
-    text: "I needed a reliable truck that rented for a big delivery in Lagos, and this platform came through perfectly. The booking was seamless, the truck was in excellent condition, and the driver was professional. I couldn't be happier with the service and will definitely be using them again for future deliveries. Highly recommend!",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    name: "Adebayo Ogundimu",
-    company: "Ogundimu Logistics",
-    rating: 5,
-    text: "I needed a reliable truck that rented for a big delivery in Lagos, and this platform came through perfectly. The booking was seamless, the truck was in excellent condition, and the driver was professional. I couldn't be happier with the service and will definitely be using them again for future deliveries. Highly recommend!",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-]
-
-const faqs = [
-  {
-    question: "How do I sign up account?",
-    answer: "You can sign up by clicking the 'Sign Up' button and following the registration process.",
-  },
-  {
-    question: "How do I register my Company?",
-    answer: "During registration, select 'Business Account' and provide your company details including CAC number.",
-  },
-  {
-    question: "How secure is TruckR?",
-    answer: "TruckR uses industry-standard security measures to protect your data and transactions.",
-  },
-  {
-    question: "Why can't I find trucks I want to deliver?",
-    answer: "Try adjusting your search filters or contact our support team for assistance finding specific trucks.",
-  },
-  {
-    question: "How can I contact customer support?",
-    answer: "You can reach our 24/7 support team through the contact form or email us directly.",
-  },
-  {
-    question: "Where are your branches located?",
-    answer: "We currently operate in Lagos and Abuja, with plans to expand to other major cities.",
   },
 ]
 
@@ -156,60 +115,14 @@ export default function HomeScreen() {
   return (
     <div className="min-h-screen w-screen bg-white font-inter">
       {/* Header */}
-      <header className="border-b bg-white text-black sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            {/* <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-sm">Logo</span>
-            </div> */}
-            <Link href="/" className="text-2xl font-bold text-blue-600">
-              TRUCKR
-            </Link>
-          </div>
-
-          <nav className="hidden md:flex space-x-8">
-            <Link href="/rent" className="text-gray-700 hover:text-blue-600 font-medium">
-              Rent
-            </Link>
-            <Link href="/list" className="text-gray-700 hover:text-blue-600 font-medium">
-              List
-            </Link>
-            <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium">
-              About us
-            </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-blue-600 font-medium">
-              Contact Us
-            </Link>
-          </nav>
-
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <span className="text-gray-700 font-medium">My Cart</span>
-              <Button variant="ghost" size="sm" className="relative">
-                <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  0
-                </span>
-              </Button>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm">D</span>
-              </div>
-              <div className="w-6 h-6 bg-gray-300 rounded flex items-center justify-center">
-                <span className="text-xs">☰</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Navbar />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r w-full text-white flex items-center h-[55rem] md:h-[36rem]"     style={{
-            backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}>
+      <section className="relative bg-gradient-to-r w-full text-white flex items-center h-[55rem] md:h-[36rem]" style={{
+        backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
+        backgroundSize: "cover", 
+        backgroundPosition: "center",
+      }}>
         <div className="absolute inset-0 bg-black/70"></div>
         <div className="relative container mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-4">
@@ -271,9 +184,8 @@ export default function HomeScreen() {
               <Button
                 key={category}
                 variant={filters.category === category ? "default" : "outline"}
-                className={`px-6 py-3 rounded-lg ${
-                  filters.category === category ? "bg-blue-600 text-white" : "text-gray-700 border-gray-300"
-                }`}
+                className={`px-6 py-3 rounded-lg ${filters.category === category ? "bg-blue-600 text-white" : "text-gray-700 border-gray-300"
+                  }`}
                 onClick={() => handleCategoryChange(category)}
               >
                 {category}
@@ -373,7 +285,7 @@ export default function HomeScreen() {
               ) : (
                 <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {filteredTrucks.map((truck) => (
-                    <Card key={truck.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                    <Card key={truck.id} className="overflow-hidden hover:shadow-md transition-shadow">
                       <div className="relative">
                         <Image
                           src={truck.images[0] || "/placeholder.svg"}
@@ -386,17 +298,16 @@ export default function HomeScreen() {
                         <Button
                           variant="ghost"
                           size="lg"
-                          className={`absolute top-3 r right-3 hover:bg-black/60  ${
-                            likedTrucks.has(truck.id) ? "bg-black text-blue-600" : "bg-black/80 text-white"
-                          }`}
+                          className={`absolute top-3 r right-3 hover:bg-black/60  ${likedTrucks.has(truck.id) ? "bg-black text-blue-600" : "bg-black/80 text-white"
+                            }`}
                           onClick={() => toggleLike(truck.id)}
                         >
-                          <Heart  size={30}
+                          <Heart size={30}
                             className={` ${likedTrucks.has(truck.id) ? "fill-white text-white" : ""}`}
                           />
                         </Button>
                       </div>
-                     <CardContent className="p-4 fllex items-center">
+                      <CardContent className="p-4 fllex items-center">
 
                         <div className="flex items-center text-gray-600 justify-between mb-2">
                           <div className="flex flex-col">
@@ -422,7 +333,7 @@ export default function HomeScreen() {
                           </div>
 
                           <Link href={`/trucks/${truck.id}`}>
-                            <Button className="w-full bg-blue-600 hover:bg-blue-700">Rent this Truck 
+                            <Button className="w-full bg-blue-600 hover:bg-blue-700">Rent this Truck
                               <div>
                                 <ArrowRight />
                               </div>
@@ -493,13 +404,16 @@ export default function HomeScreen() {
                   </div>
                   <p className="text-gray-700 mb-6 leading-relaxed">"{testimonial.text}"</p>
                   <div className="flex items-center">
-                    <Image
+                    <div className="w-20 h-20 bg-gray-200 rounded-full mr-4 flex items-center justify-center">
+
+                    </div>
+                    {/* <Image
                       src={testimonial.avatar || "/placeholder.svg"}
                       alt={testimonial.name}
                       width={40}
                       height={40}
                       className="rounded-full mr-3"
-                    />
+                    /> */}
                     <div>
                       <p className="font-semibold">{testimonial.name}</p>
                       <p className="text-sm text-gray-600">{testimonial.company}</p>
@@ -541,11 +455,11 @@ export default function HomeScreen() {
       </section>
 
       {/* Newsletter CTA */}
-      <section className="py-20 text-black relative overflow-hidden rounded-lg w-[96%] mx-auto"     style={{
-            backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}>
+      <section className="py-20 text-black relative overflow-hidden rounded-lg w-[96%] mx-auto" style={{
+        backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}>
         <div className="absolute inset-0 bg-black/70"></div>
         <div className="relative container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Can't find what you are looking for?</h2>
@@ -555,76 +469,7 @@ export default function HomeScreen() {
         </div>
       </section>
 
-      {/* Newsletter Signup */}
-      <section className="py-12 text-black bg-gray-100">
-        <div className="container mx-auto px-4">
-          <div className="max-w-md mx-auto text-center">
-            <h3 className="text-xl font-semibold mb-4">Subscribe to Newsletter</h3>
-            <div className="flex">
-              <Input placeholder="Enter your email" className="rounded-r-none" />
-              <Button className="rounded-l-none bg-blue-600 hover:bg-blue-700">Subscribe</Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4">TRUCKR</h3>
-              <p className="text-gray-400 mb-6 leading-relaxed">
-                At TruckR, we're redefining how Nigeria moves, one truck at a time. Whether you're delivering goods, or
-                managing logistics for your business, we connect you to a network of trusted drivers and reliable
-                vehicles across your needs.
-              </p>
-              <div className="flex space-x-4">
-                <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-                  <span className="text-white text-sm">f</span>
-                </div>
-                <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-                  <span className="text-white text-sm">t</span>
-                </div>
-                <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-                  <span className="text-white text-sm">in</span>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">Our Contact</h4>
-              <div className="space-y-2 text-gray-400">
-                <p>Available Products</p>
-                <p>Email</p>
-                <p>Twitter</p>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">Location</h4>
-              <div className="space-y-2 text-gray-400">
-                <p>Lagos State</p>
-                <p>Abuja State</p>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">Our Products</h4>
-              <div className="space-y-2 text-gray-400">
-                <p>Flatbed Truck</p>
-                <p>Tanker Truck</p>
-                <p>Trailer Truck</p>
-                <p>Dump Truck</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>Copyright ©2025. All Rights Reserved — TruckR</p>
-          </div>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   )
 }

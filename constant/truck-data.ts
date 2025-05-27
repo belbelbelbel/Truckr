@@ -374,3 +374,56 @@ export function filterTrucks(trucks: Truck[], filters: FilterState): Truck[] {
     return true
   })
 }
+
+
+
+export const testimonials = [
+  {
+    name: "Adebayo Ogundimu",
+    company: "Ogundimu Logistics",
+    rating: 5,
+    text: "I needed a reliable truck that rented for a big delivery in Lagos, and this platform came through perfectly. The booking was seamless, the truck was in excellent condition, and the driver was professional. I couldn't be happier with the service and will definitely be using them again for future deliveries. Highly recommend!",
+    avatar: "/placeholder.svg?height=40&width=40",
+  },
+  {
+    name: "Adebayo Ogundimu",
+    company: "Ogundimu Logistics",
+    rating: 5,
+    text: "I needed a reliable truck that rented for a big delivery in Lagos, and this platform came through perfectly. The booking was seamless, the truck was in excellent condition, and the driver was professional. I couldn't be happier with the service and will definitely be using them again for future deliveries. Highly recommend!",
+    avatar: "/placeholder.svg?height=40&width=40",
+  },
+]
+
+export const faqs = [
+  {
+    question: "How do I sign up account?",
+    answer: "You can sign up by clicking the 'Sign Up' button and following the registration process.",
+  },
+  {
+    question: "How do I register my Company?",
+    answer: "During registration, select 'Business Account' and provide your company details including CAC number.",
+  },
+  {
+    question: "How secure is TruckR?",
+    answer: "TruckR uses industry-standard security measures to protect your data and transactions.",
+  },
+  {
+    question: "Why can't I find trucks I want to deliver?",
+    answer: "Try adjusting your search filters or contact our support team for assistance finding specific trucks.",
+  },
+  {
+    question: "How can I contact customer support?",
+    answer: "You can reach our 24/7 support team through the contact form or email us directly.",
+  },
+  {
+    question: "Where are your branches located?",
+    answer: "We currently operate in Lagos and Abuja, with plans to expand to other major cities.",
+  },
+]
+
+export const NavliNKS = [
+  { name: 'Rent', href: '/rent' },
+  { name: 'List', href: '/list' },
+  { name: 'About us', href: '/about' },
+  { name: 'Contact Us', href: '/contact' }
+]

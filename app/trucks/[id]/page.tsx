@@ -10,12 +10,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { trucksData } from "@/constant/truck-data"
 
-// interface TruckDetailPageProps {
-//   params: {
-//     id: any
-//   }
-// }
-
 export default function TruckDetailPage({ params }: any) {
   const truck = trucksData.find((t) => t.id === params.id) || trucksData[0]
   const [selectedImage, setSelectedImage] = useState(0)
@@ -109,7 +103,7 @@ export default function TruckDetailPage({ params }: any) {
                     {truck.images.map((_, index) => (
                       <button
                         key={index}
-                        className={`w-2 h-2 rounded-full ${index === selectedImage ? "bg-white" : "bg-white/50"}`}
+                        className={`w-2 h-2 rounded-full ${index === selectedImage ? "bg-black" : "bg-black/50"}`}
                         onClick={() => setSelectedImage(index)}
                       />
                     ))}
