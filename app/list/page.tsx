@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -9,73 +9,39 @@ import { Plus, Grid3X3, Search, ShoppingCart, User, ChevronRight, Edit, Trash2, 
 import Link from "next/link"
 import Image from "next/image"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { getUserListings, deleteUserListing, type UserListing } from "@/constant/user-listings"
 import Footer from "@/component/Footer"
-
-interface Listing {
-  id: string
-  name: string
-  image: string
-  condition: string
-  amount: number
-  status: "Approved" | "Failed" | "In Progress"
-  listedDate: string
-  location: string
-}
-
-const sampleListings: Listing[] = [
-  {
-    id: "1",
-    name: "Hovo Forklift 219",
-    image: "/assets/Forklift Truck - New & Used Forklift Truck for sale Australia 1.png",
-    condition: "Fair",
-    amount: 20000,
-    status: "Failed",
-    listedDate: "23rd of May, 2025",
-    location: "Ikeja,Lagos",
-  },
-  {
-    id: "2",
-    name: "Hovo Forklift 219",
-    image: "/assets/Forklift Truck - New & Used Forklift Truck for sale Australia 1.png",
-    condition: "Fair",
-    amount: 20000,
-    status: "In Progress",
-    listedDate: "23rd of May, 2025",
-    location: "Ikeja,Lagos",
-  },
-  {
-    id: "3",
-    name: "Hovo Forklift 219",
-    image: "/assets/Forklift Truck - New & Used Forklift Truck for sale Australia 1.png",
-    condition: "Good",
-    amount: 20000,
-    status: "Approved",
-    listedDate: "23rd of May, 2025",
-    location: "Ikeja,Lagos",
-  },
-]
+import Navbar from "@/component/Navbar"
+import { useRouter } from "next/navigation"
 
 export default function ListingsPage() {
-  const [listings, setListings] = useState<Listing[]>(sampleListings)
+  const [listings, setListings] = useState<UserListing[]>([])
   const [viewMode, setViewMode] = useState<"table" | "grid">("table")
-  const [selectedListing, setSelectedListing] = useState<Listing | null>(null)
+  const [selectedListing, setSelectedListing] = useState<UserListing | null>(null)
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const routes = useRouter()
 
-  const handleEdit = (listing: Listing) => {
+  // Load user listings
+  useEffect(() => {
+    setListings(getUserListings())
+  }, [])
+
+  const handleEdit = (listing: UserListing) => {
     setSelectedListing(listing)
     setShowEditModal(true)
   }
 
-  const handleDelete = (listing: Listing) => {
+  const handleDelete = (listing: UserListing) => {
     setSelectedListing(listing)
     setShowDeleteModal(true)
   }
 
   const confirmDelete = () => {
     if (selectedListing) {
-      setListings(listings.filter((l) => l.id !== selectedListing.id))
+      deleteUserListing(selectedListing.id)
+      setListings(getUserListings())
       setShowDeleteModal(false)
       setSelectedListing(null)
     }
@@ -107,100 +73,94 @@ export default function ListingsPage() {
     }
   }
 
+  const menuItems = [
+    {
+      label: "My Profile",
+      href: "/profile",
+      icon: <User className="h-5 w-5" />,
+      active: false,
+    },
+    {
+      label: "Account setting",
+      href: "/profile/settings",
+      icon: <span className="text-lg">⚙️</span>,
+      active: false,
+    },
+    {
+      label: "My listings",
+      href: '/list',
+      icon: <span className="text-lg">📋</span>,
+      active: true,
+    },
+    {
+      label: "Wishlist",
+      href: "/profile/saved",
+      icon: <span className="text-lg">❤️</span>,
+      active: false,
+    },
+    {
+      label: "Switch to Renting",
+      href: "/rent",
+      icon: <span className="text-lg">🔄</span>,
+      active: false,
+    },
+  ];
+
+  const bottomItem = {
+    label: "Log Out",
+    icon: <span className="text-lg">🚪</span>,
+    trailing: <span className="ml-auto">↗</span>,
+    action: () => routes.push('/auth/login'),
+  };
+
+
   return (
-    <div className="min-h-screen bg-gray-50 font-inter">
+    <div className="min-h-screen  font-inter">
       {/* Header */}
-      <header className="bg-white border-b">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            {/* <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-sm">Logo</span>
-            </div> */}
-            <Link href="/" className="text-2xl font-bold text-blue-600">
-              TRUCKR
-            </Link>
-          </div>
-
-          <nav className="hidden md:flex space-x-8">
-            <Link href="/rent" className="text-gray-700 hover:text-blue-600 font-medium">
-              Rent
-            </Link>
-            <Link href="/list" className="text-blue-600 font-medium">
-              List
-            </Link>
-            <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium">
-              About us
-            </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-blue-600 font-medium">
-              Contact Us
-            </Link>
-          </nav>
-
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <span className="text-gray-700 font-medium">My Cart</span>
-              <Button variant="ghost" size="sm" className="relative">
-                <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  0
-                </span>
-              </Button>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm">D</span>
-              </div>
-              <div className="w-6 h-6 bg-gray-300 rounded flex items-center justify-center">
-                <span className="text-xs">☰</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Navbar />
 
       <div className="flex">
         {/* Sidebar */}
         <div className="w-64 bg-white border-r min-h-screen">
           <div className="p-6 space-y-4">
-            <div className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 cursor-pointer">
-              <User className="h-5 w-5" />
-              <span>My Profile</span>
-              <ChevronRight className="h-4 w-4 ml-auto" />
-            </div>
+            {menuItems.map((item, index) =>
+              item.href ? (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className={`flex items-center space-x-3 ${item.active ? "text-blue-600 bg-blue-50 font-medium" : "text-gray-700 hover:text-blue-600"
+                    } cursor-pointer p-2 rounded`}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                  {/* <ChevronRight className="h-4 w-4 ml-auto" /> */}
+                </Link>
+              ) : (
+                <div
+                  key={index}
+                  className="flex items-center space-x-3 text-blue-600 font-medium cursor-pointer bg-blue-50 p-2 rounded"
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                  <ChevronRight className="h-4 w-4 ml-auto" />
+                </div>
+              )
+            )}
 
-            <div className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 cursor-pointer">
-              <span className="text-lg">⚙️</span>
-              <span>Account setting</span>
-              <ChevronRight className="h-4 w-4 ml-auto" />
-            </div>
-
-            <div className="flex items-center space-x-3 text-blue-600 font-medium cursor-pointer bg-blue-50 p-2 rounded">
-              <span className="text-lg">📋</span>
-              <span>My listings</span>
-              <ChevronRight className="h-4 w-4 ml-auto" />
-            </div>
-
-            <div className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 cursor-pointer">
-              <span className="text-lg">❤️</span>
-              <span>Wishlist</span>
-              <ChevronRight className="h-4 w-4 ml-auto" />
-            </div>
-
-            <div className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 cursor-pointer">
-              <span className="text-lg">🔄</span>
-              <span>Switch to Renting</span>
-              <ChevronRight className="h-4 w-4 ml-auto" />
-            </div>
-
-            <div className="pt-8">
-              <div className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 cursor-pointer">
-                <span className="text-lg">🚪</span>
-                <span>Log Out</span>
-                <span className="ml-auto">↗</span>
+            {/* Bottom Logout */}
+            <div className=" px-1 pt-8">
+              <div
+                className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 cursor-pointer"
+                onClick={bottomItem.action}
+              >
+                {bottomItem.icon}
+                <span>{bottomItem.label}</span>
+                {bottomItem.trailing}
               </div>
             </div>
           </div>
         </div>
+
 
         {/* Main Content */}
         <div className="flex-1 p-6">
@@ -227,11 +187,11 @@ export default function ListingsPage() {
             <div className="text-center py-16">
               <div className="mb-8">
                 <Image
-                  src="/placeholder.svg?height=300&width=400"
+                  src="/assets/Character.png"
                   alt="No listings"
                   width={400}
                   height={300}
-                  className="mx-auto"
+                  className="mx-auto h-90"
                 />
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">OOPS! Nothing here</h2>
@@ -256,11 +216,11 @@ export default function ListingsPage() {
                 <div key={listing.id} className="grid grid-cols-6 gap-4 p-4 border-b items-center hover:bg-gray-50">
                   <div>
                     <Image
-                      src={listing.image || "/placeholder.svg"}
+                      src={listing.photos[0] || "/placeholder.svg"}
                       alt={listing.name}
                       width={60}
                       height={60}
-                      className="rounded object-contain"
+                      className="rounded object-cover"
                     />
                   </div>
                   <div className="font-medium text-gray-900">{listing.name}</div>
@@ -291,11 +251,11 @@ export default function ListingsPage() {
                 <Card key={listing.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                   <div className="relative">
                     <Image
-                      src={listing.image || "/placeholder.svg"}
+                      src={listing.photos[0] || "/placeholder.svg"}
                       alt={listing.name}
                       width={300}
                       height={200}
-                      className="w-full h-48 object-contain"
+                      className="w-full h-48 object-cover"
                     />
                     <Badge className={`absolute top-3 left-3 ${getStatusBadgeColor(listing.status)}`}>
                       {listing.status}
@@ -334,7 +294,6 @@ export default function ListingsPage() {
         </div>
       </div>
 
-      {/* Edit Modal */}
       <Dialog open={showEditModal} onOpenChange={setShowEditModal}>
         <DialogContent className="max-w-md">
           <div className="text-center p-6">
@@ -349,8 +308,8 @@ export default function ListingsPage() {
 
             <div className="mb-6">
               <Image
-                src="/placeholder.svg?height=150&width=200"
-                alt="Forklift"
+                src={selectedListing?.photos[0] || "/placeholder.svg"}
+                alt="Truck"
                 width={200}
                 height={150}
                 className="mx-auto"
@@ -384,7 +343,6 @@ export default function ListingsPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Modal */}
       <Dialog open={showDeleteModal} onOpenChange={setShowDeleteModal}>
         <DialogContent className="max-w-md">
           <div className="text-center p-6">
@@ -399,8 +357,8 @@ export default function ListingsPage() {
 
             <div className="mb-6">
               <Image
-                src="/placeholder.svg?height=150&width=200"
-                alt="Forklift"
+                src={selectedListing?.photos[0] || "/placeholder.svg"}
+                alt="Truck"
                 width={200}
                 height={150}
                 className="mx-auto"
@@ -427,7 +385,6 @@ export default function ListingsPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Success Modal */}
       <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
         <DialogContent className="max-w-md">
           <div className="text-center p-8">
@@ -443,8 +400,6 @@ export default function ListingsPage() {
         </DialogContent>
       </Dialog>
 
-
-      {/* Footer */}
       <Footer />
     </div>
   )

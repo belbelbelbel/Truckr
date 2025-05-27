@@ -6,7 +6,6 @@ import React from 'react'
 export default function Footer() {
     return (
         <div>
-            {/* Newsletter Signup */}
             <section className="py-12 text-black bg-gray-100">
                 <div className="container mx-auto px-4">
                     <div className="max-w-md mx-auto text-center">
@@ -18,8 +17,6 @@ export default function Footer() {
                     </div>
                 </div>
             </section>
-
-            {/* Footer */}
             <footer className="bg-gray-900 text-white py-12">
                 <div className="container relative mx-auto px-4">
                     <div className="grid md:grid-cols-4 gap-8">
@@ -79,7 +76,6 @@ export default function Footer() {
                             className="object-contain"
                         />
                     </div>
-
                     <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
                         <p>Copyright ©2025. All Rights Reserved — TruckR</p>
                     </div>

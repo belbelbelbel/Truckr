@@ -94,11 +94,11 @@ export default function ContactPage() {
       {/* Hero Section */}
       <section
         className="relative h-64 flex items-center justify-center"
-     style={{
-            backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
+        style={{
+          backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
         <div className="absolute inset-0 bg-black/70"></div>
         <div className="relative z-10">
@@ -191,7 +191,7 @@ export default function ContactPage() {
 
 
       {/* Footer */}
-<Footer/>
+      <Footer />
     </div>
   )
 }

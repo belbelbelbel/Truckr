@@ -69,7 +69,7 @@ export const trucksData: Truck[] = [
     reviews: 12,
     images: [
       "/assets/Forklift Truck - New & Used Forklift Truck for sale Australia 1.png",
-      "/assets/Forklift Truck - New & Used Forklift Truck for sale Australia 1.png0",
+      "/assets/Forklift Truck - New & Used Forklift Truck for sale Australia 1.png",
       "/assets/Forklift Truck - New & Used Forklift Truck for sale Australia 1.png",
     ],
     verified: true,

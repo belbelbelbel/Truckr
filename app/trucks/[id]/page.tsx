@@ -5,72 +5,66 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Star, ShoppingCart, User, ChevronLeft, ChevronRight, Check } from "lucide-react"
-import Link from "next/link"
+import { Star, ChevronLeft, ChevronRight, Check } from 'lucide-react'
 import Image from "next/image"
 import { trucksData } from "@/constant/truck-data"
+import { useCartStore } from "@/constant/cart-store"
+import { toast } from "sonner"
+import Navbar from "@/component/Navbar"
+import { PaymentModals } from "@/components/payments-modals"
 
-export default function TruckDetailPage({ params }: any) {
+interface TruckDetailPageProps {
+  params: {
+    id: string
+  }
+}
+
+export default function TruckDetailPage({ params }: TruckDetailPageProps) {
   const truck = trucksData.find((t) => t.id === params.id) || trucksData[0]
   const [selectedImage, setSelectedImage] = useState(0)
   const [rentalPeriod, setRentalPeriod] = useState("Select Date")
   const [siteLocation, setSiteLocation] = useState("Select Date")
   const [pickupOption, setPickupOption] = useState("Select Date")
   const [addOns, setAddOns] = useState("Select Date")
+  const [showPaymentModal, setShowPaymentModal] = useState(false)
+
+  const addItem = useCartStore((state) => state.addItem)
+
+  const handleRequestTruck = () => {
+    // Validate form
+    if (rentalPeriod === "Select Date" || siteLocation === "Select Date" ||
+      pickupOption === "Select Date" || addOns === "Select Date") {
+      toast.error("Please fill in all rental details")
+      return
+    }
+
+    // Add to cart
+    addItem({
+      id: truck.id,
+      name: truck.name,
+      image: truck.images[0],
+      price: truck.price,
+      rentalPeriod,
+      siteLocation,
+      pickupOption,
+      addOns
+    })
+
+    toast.success("Truck added to cart!")
+
+    // setShowPaymentModal(true)
+  }
+
+  const handlePaymentComplete = () => {
+    toast.success("Payment completed successfully!")
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 font-inter">
-      {/* Header */}
-      <header className="border-b bg-white sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            {/* <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-sm">Logo</span>
-            </div> */}
-            <Link href="/" className="text-2xl font-bold text-blue-600">
-              TRUCKR
-            </Link>
-          </div>
-
-          <nav className="hidden md:flex space-x-8">
-            <Link href="/rent" className="text-gray-700 hover:text-blue-600 font-medium">
-              Rent
-            </Link>
-            <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium">
-              About us
-            </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-blue-600 font-medium">
-              Contact Us
-            </Link>
-          </nav>
-
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <span className="text-gray-700 font-medium">My Cart</span>
-              <Button variant="ghost" size="sm" className="relative">
-                <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  0
-                </span>
-              </Button>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                <User className="h-4 w-4 text-white" />
-              </div>
-              <div className="w-6 h-6 bg-gray-300 rounded flex items-center justify-center">
-                <span className="text-xs">☰</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
+      <Navbar />
       <div className="container mx-auto px-6 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Image Gallery */}
             <Card className="overflow-hidden">
               <CardContent className="p-0">
                 <div className="relative">
@@ -79,7 +73,7 @@ export default function TruckDetailPage({ params }: any) {
                     alt={truck.name}
                     width={600}
                     height={400}
-                    className="w-full h-126 object-contain"
+                    className="w-full h-96 object-contain"
                   />
                   <Button
                     variant="ghost"
@@ -103,7 +97,7 @@ export default function TruckDetailPage({ params }: any) {
                     {truck.images.map((_, index) => (
                       <button
                         key={index}
-                        className={`w-2 h-2 rounded-full ${index === selectedImage ? "bg-black" : "bg-black/50"}`}
+                        className={`w-2 h-2 rounded-full ${index === selectedImage ? "bg-white" : "bg-white/50"}`}
                         onClick={() => setSelectedImage(index)}
                       />
                     ))}
@@ -117,16 +111,15 @@ export default function TruckDetailPage({ params }: any) {
                       <button
                         key={index}
                         onClick={() => setSelectedImage(index)}
-                        className={`relative w-20 h-16 rounded-lg overflow-hidden border-2 ${
-                          selectedImage === index ? "border-blue-600" : "border-gray-200"
-                        }`}
+                        className={`relative w-20 h-16 rounded-lg overflow-hidden border-2 ${selectedImage === index ? "border-blue-600" : "border-gray-200"
+                          }`}
                       >
                         <Image
                           src={image || "/placeholder.svg"}
                           alt={`${truck.name} ${index + 1}`}
                           width={80}
                           height={64}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain"
                         />
                       </button>
                     ))}
@@ -263,7 +256,7 @@ export default function TruckDetailPage({ params }: any) {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-black">₦20,000</div>
+                  <div className="text-3xl font-bold text-black">₦{truck.price.toLocaleString()}</div>
                   <div className="text-gray-600">/day</div>
                 </div>
 
@@ -287,7 +280,7 @@ export default function TruckDetailPage({ params }: any) {
                     <label className="block text-sm font-medium mb-2 text-black">Site Location</label>
                     <Select value={siteLocation} onValueChange={setSiteLocation}>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select Date" />
+                        <SelectValue placeholder="Select Location" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="lagos">Lagos</SelectItem>
@@ -300,7 +293,7 @@ export default function TruckDetailPage({ params }: any) {
                     <label className="block text-sm font-medium mb-2 text-black">Pick up option</label>
                     <Select value={pickupOption} onValueChange={setPickupOption}>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select Date" />
+                        <SelectValue placeholder="Select Option" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="pickup">Pick up</SelectItem>
@@ -313,17 +306,22 @@ export default function TruckDetailPage({ params }: any) {
                     <label className="block text-sm font-medium mb-2 text-black">Add-Ons</label>
                     <Select value={addOns} onValueChange={setAddOns}>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select Date" />
+                        <SelectValue placeholder="Select Add-ons" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="driver">Driver</SelectItem>
                         <SelectItem value="insurance">Insurance</SelectItem>
+                        <SelectItem value="none">None</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
 
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white" size="lg">
+                <Button
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                  size="lg"
+                  onClick={handleRequestTruck}
+                >
                   Request Truck
                 </Button>
 
@@ -368,6 +366,14 @@ export default function TruckDetailPage({ params }: any) {
           </div>
         </div>
       </div>
+
+      {/* Payment Modal */}
+      <PaymentModals
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        onComplete={handlePaymentComplete}
+        totalAmount={truck.price}
+      />
     </div>
   )
 }

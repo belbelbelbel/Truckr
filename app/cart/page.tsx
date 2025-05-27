@@ -1,51 +1,49 @@
+"use client"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Minus, Plus, Trash2 } from "lucide-react"
 import Image from "next/image"
+import { useState } from "react"
+import { toast } from "sonner"
+import { useCartStore } from "@/constant/cart-store"
 import Navbar from "@/component/Navbar"
-
-const cartItems = [
-  {
-    id: 1,
-    name: "Hino Forklift 2B",
-    image: "/assets/Forklift Truck - New & Used Forklift Truck for sale Australia 1.png",
-    price: 25000,
-    quantity: 1,
-    status: "Approved",
-  },
-  {
-    id: 2,
-    name: "Hino Forklift 2B",
-    image: "/assets/Forklift Truck - New & Used Forklift Truck for sale Australia 1.png",
-    price: 25000,
-    quantity: 1,
-    status: "Approved",
-  },
-]
-
-const isEmpty = false // Set to true to show empty state
+import { PaymentModals } from "@/components/payments-modals"
 
 export default function CartPage() {
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const total = subtotal // Add taxes, fees here if needed
+  const { items, updateQuantity, removeItem, getTotalPrice, clearCart } = useCartStore()
+  const [showPaymentModal, setShowPaymentModal] = useState(false)
+
+  const handleCheckout = () => {
+    if (items.length === 0) {
+      toast.error("Your cart is empty")
+      return
+    }
+    setShowPaymentModal(true)
+  }
+
+  const handlePaymentComplete = () => {
+    clearCart()
+    toast.success("Payment completed successfully!")
+  }
+
+  const isEmpty = items.length === 0
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-    <Navbar/>
+      <Navbar />
 
-      {/* Hero Section */}
-      <section className="text-white w-screen flex justify-enter items-center h-30" style={{
+      <section className="bg-gradient-to-r from-gray-900 to-gray-700 flex items-center relative h-64 text-white" style={{
         backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
       }}>
-        <div className="absolute w-full h-30 bg-black/70"></div>
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl  z-50 relative font-bold">CART 🛒</h1>
+        <div className="container z-50 relative  mx-auto px-4 text-center">
+          <h1 className="text-4xl  font-bold">CART 🛒</h1>
         </div>
+        <div className="absolute bg-black/70 inset-0"></div>
       </section>
 
       <div className="container mx-auto px-4 py-8">
@@ -79,7 +77,7 @@ export default function CartPage() {
                     </div>
 
                     {/* Cart Items */}
-                    {cartItems.map((item) => (
+                    {items.map((item) => (
                       <div key={item.id} className="grid grid-cols-6 gap-4 items-center py-4 border-b">
                         <div>
                           <Image
@@ -92,24 +90,40 @@ export default function CartPage() {
                         </div>
                         <div>
                           <h3 className="font-medium">{item.name}</h3>
+                          <p className="text-sm text-gray-500">
+                            {item.rentalPeriod} • {item.siteLocation}
+                          </p>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <Button size="sm" variant="outline">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          >
                             <Minus className="h-3 w-3" />
                           </Button>
                           <span className="w-8 text-center">{item.quantity}</span>
-                          <Button size="sm" variant="outline">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          >
                             <Plus className="h-3 w-3" />
                           </Button>
                         </div>
-                        <div className="font-medium">₦{item.price.toLocaleString()}</div>
+                        <div className="font-medium">₦{(item.price * item.quantity).toLocaleString()}</div>
                         <div>
                           <Badge variant="secondary" className="bg-green-100 text-green-800">
                             {item.status}
                           </Badge>
                         </div>
                         <div>
-                          <Button size="sm" variant="ghost" className="text-red-600">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="text-red-600"
+                            onClick={() => removeItem(item.id)}
+                          >
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
@@ -129,11 +143,11 @@ export default function CartPage() {
                 <CardContent className="space-y-4">
                   <div className="flex justify-between">
                     <span>Total Items</span>
-                    <span>{cartItems.length}</span>
+                    <span>{items.reduce((sum, item) => sum + item.quantity, 0)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Sub Total</span>
-                    <span>₦{subtotal.toLocaleString()}</span>
+                    <span>₦{getTotalPrice().toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Discount</span>
@@ -142,16 +156,26 @@ export default function CartPage() {
                   <div className="border-t pt-4">
                     <div className="flex justify-between font-bold text-lg">
                       <span>Total</span>
-                      <span>₦{total.toLocaleString()}</span>
+                      <span>₦{getTotalPrice().toLocaleString()}</span>
                     </div>
                   </div>
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700">Check out</Button>
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700" onClick={handleCheckout}>
+                    Check out
+                  </Button>
                 </CardContent>
               </Card>
             </div>
           </div>
         )}
       </div>
+
+      {/* Payment Modal */}
+      <PaymentModals
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        onComplete={handlePaymentComplete}
+        totalAmount={getTotalPrice()}
+      />
 
       {/* Newsletter Section */}
       <section className="bg-gray-100 py-12">

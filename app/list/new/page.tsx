@@ -11,7 +11,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ShoppingCart, Upload, Calendar } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { addUserListing } from "@/constant/user-listings"
 import Footer from "@/component/Footer"
+import Navbar from "@/component/Navbar"
 
 export default function NewListingPage() {
     const router = useRouter()
@@ -32,8 +34,25 @@ export default function NewListingPage() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        // Handle form submission
-        router.push("/list?success=true")
+
+        const newListing = addUserListing({
+            name: `${formData.truckType}`,
+            image: formData.photos.length > 0 ? URL.createObjectURL(formData.photos[0]) : "/placeholder.svg",
+            condition: formData.truckCondition,
+            amount: Number.parseInt(formData.dailyRate.replace(/[^0-9]/g, "")) || 0,
+            location: "Lagos, Nigeria", // Default location
+            truckType: formData.truckType,
+            dailyRate: formData.dailyRate,
+            availabilityPeriod: formData.availabilityPeriod,
+            manufacturerNumber: formData.manufacturerNumber,
+            transmission: formData.transmission,
+            fuelCapacity: formData.fuelCapacity,
+            serialNumber: formData.serialNumber,
+            description: formData.description,
+            photos: formData.photos.map((file) => URL.createObjectURL(file)),
+            ownershipProof: formData.ownershipProof.map((file) => URL.createObjectURL(file)),
+        })
+        router.push("/list")
     }
 
     const handleFileUpload = (field: "photos" | "ownershipProof", files: FileList | null) => {
@@ -56,53 +75,7 @@ export default function NewListingPage() {
     return (
         <div className="min-h-screen bg-white font-inter">
             {/* Header */}
-            <header className="bg-white border-b">
-                <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                        {/* <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-                            <span className="text-white font-bold text-sm">Logo</span>
-                        </div> */}
-                        <Link href="/" className="text-2xl font-bold text-blue-600">
-                            TRUCKR
-                        </Link>
-                    </div>
-
-                    <nav className="hidden md:flex space-x-8">
-                        <Link href="/rent" className="text-gray-700 hover:text-blue-600 font-medium">
-                            Rent
-                        </Link>
-                        <Link href="/list" className="text-blue-600 font-medium">
-                            List
-                        </Link>
-                        <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium">
-                            About us
-                        </Link>
-                        <Link href="/contact" className="text-gray-700 hover:text-blue-600 font-medium">
-                            Contact Us
-                        </Link>
-                    </nav>
-
-                    <div className="flex items-center space-x-4">
-                        <div className="flex items-center space-x-2">
-                            <span className="text-gray-700 font-medium">My Cart</span>
-                            <Button variant="ghost" size="sm" className="relative">
-                                <ShoppingCart className="h-5 w-5" />
-                                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                                    7
-                                </span>
-                            </Button>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                                <span className="text-white font-bold text-sm">D</span>
-                            </div>
-                            <div className="w-6 h-6 bg-gray-300 rounded flex items-center justify-center">
-                                <span className="text-xs">☰</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <Navbar />
 
             <section
                 className="relative bg-gray-800 text-white py-16"
@@ -133,10 +106,12 @@ export default function NewListingPage() {
                                         <SelectValue placeholder="Select Truck Type" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="dump">Dump Truck</SelectItem>
-                                        <SelectItem value="flatbed">Flatbed Truck</SelectItem>
-                                        <SelectItem value="tanker">Tanker Truck</SelectItem>
-                                        <SelectItem value="forklift">Forklift</SelectItem>
+                                        <SelectItem value="Dump Truck">Dump Truck</SelectItem>
+                                        <SelectItem value="Flatbed Truck">Flatbed Truck</SelectItem>
+                                        <SelectItem value="Tanker Truck">Tanker Truck</SelectItem>
+                                        <SelectItem value="Forklift">Forklift</SelectItem>
+                                        <SelectItem value="Excavator">Excavator</SelectItem>
+                                        <SelectItem value="Loader">Loader</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -267,7 +242,7 @@ export default function NewListingPage() {
                         {/* Upload Truck Photos */}
                         <div>
                             <Label className="text-lg font-semibold text-gray-900 mb-3 block">Upload Truck Photos</Label>
-                            <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center bg-gray-50">
+                            <div className="border-2 flex items-center flex-col border-dashed border-gray-300 rounded-lg p-12 text-center bg-gray-50">
                                 <div className="flex flex-col items-center">
                                     <Upload className="h-16 w-16 text-gray-400 mb-4" />
                                     <p className="text-gray-600 mb-2 text-base">Upload files or drag and drop</p>
@@ -281,6 +256,9 @@ export default function NewListingPage() {
                                     id="photos"
                                     onChange={(e) => handleFileUpload("photos", e.target.files)}
                                 />
+                                <Label htmlFor="photos" className="cursor-pointer">
+                                  
+                                </Label>
                             </div>
                         </div>
 
@@ -301,6 +279,11 @@ export default function NewListingPage() {
                                     id="ownership"
                                     onChange={(e) => handleFileUpload("ownershipProof", e.target.files)}
                                 />
+                                {/* <Label htmlFor="ownership" className="cursor-pointer">
+                                    <Button type="button" variant="outline" className="mt-4">
+                                        Choose Files
+                                    </Button>
+                                </Label> */}
                             </div>
                         </div>
 
@@ -317,26 +300,7 @@ export default function NewListingPage() {
                 </div>
             </div>
 
-            {/* Newsletter Section */}
-            <section className="bg-gray-100 py-12">
-                <div className="container mx-auto px-4">
-                    <div className="flex items-center space-x-4 max-w-md mb-4">
-                        <span className="text-lg">📧</span>
-                        <span className="font-medium">Subscribe to Newsletter</span>
-                    </div>
-                    <div className="flex max-w-md space-x-2">
-                        <Input placeholder="Enter your Name" className="flex-1" />
-                        <Input placeholder="Enter your Email" className="flex-1" />
-                        <Button className="bg-blue-600 hover:bg-blue-700 px-6">
-                            <span className="text-lg">➤</span>
-                        </Button>
-                    </div>
-                </div>
-            </section>
-
-            {/* Footer */}
             <Footer />
-            {/* Click outside to close dropdown */}
             {showConditionDropdown && <div className="fixed inset-0 z-10" onClick={() => setShowConditionDropdown(false)} />}
         </div>
     )
