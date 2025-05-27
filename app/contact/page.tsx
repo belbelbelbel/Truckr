@@ -12,6 +12,7 @@ import { ShoppingCart, Send } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import Footer from "@/component/Footer"
+import Navbar from "@/component/Navbar"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -43,53 +44,7 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-white font-inter">
       {/* Header */}
-      <header className="border-b bg-white sticky top-0 z-50" >
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            {/* <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-sm">Logo</span>
-            </div> */}
-            <Link href="/" className="text-2xl font-bold text-blue-600">
-              TRUCKR
-            </Link>
-          </div>
-
-          <nav className="hidden md:flex space-x-8">
-            <Link href="/rent" className="text-gray-700 hover:text-blue-600 font-medium">
-              Rent
-            </Link>
-            <Link href="/list" className="text-gray-700 hover:text-blue-600 font-medium">
-              List
-            </Link>
-            <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium">
-              About us
-            </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-blue-600 font-medium">
-              Contact Us
-            </Link>
-          </nav>
-
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <span className="text-gray-700 font-medium">My Cart</span>
-              <Button variant="ghost" size="sm" className="relative">
-                <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  0
-                </span>
-              </Button>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm">D</span>
-              </div>
-              <div className="w-6 h-6 bg-gray-300 rounded flex items-center justify-center">
-                <span className="text-xs">☰</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+<Navbar/>
 
       {/* Hero Section */}
       <section

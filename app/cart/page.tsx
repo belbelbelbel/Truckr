@@ -57,9 +57,10 @@ export default function CartPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid  lg:grid-cols-3 gap-8">
             {/* Cart Items */}
-            <div className="lg:col-span-2">
+            {/* 🖥️ Desktop Table View */}
+            <div className="lg:col-span-2 hidden md:block">
               <Card>
                 <CardHeader>
                   <CardTitle>Cart Items</CardTitle>
@@ -90,40 +91,24 @@ export default function CartPage() {
                         </div>
                         <div>
                           <h3 className="font-medium">{item.name}</h3>
-                          <p className="text-sm text-gray-500">
-                            {item.rentalPeriod} • {item.siteLocation}
-                          </p>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          >
+                          <Button size="sm" variant="outline">
                             <Minus className="h-3 w-3" />
                           </Button>
                           <span className="w-8 text-center">{item.quantity}</span>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          >
+                          <Button size="sm" variant="outline">
                             <Plus className="h-3 w-3" />
                           </Button>
                         </div>
-                        <div className="font-medium">₦{(item.price * item.quantity).toLocaleString()}</div>
+                        <div className="font-medium">₦{item.price.toLocaleString()}</div>
                         <div>
                           <Badge variant="secondary" className="bg-green-100 text-green-800">
                             {item.status}
                           </Badge>
                         </div>
                         <div>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="text-red-600"
-                            onClick={() => removeItem(item.id)}
-                          >
+                          <Button size="sm" variant="ghost" className="text-red-600">
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
@@ -133,6 +118,61 @@ export default function CartPage() {
                 </CardContent>
               </Card>
             </div>
+            {/* 📱 Mobile Card View */}
+            <div className="space-y-4 md:hidden">
+              {items.map((item) => (
+                <div key={item.id} className="bg-white p-4 rounded-lg shadow-sm border">
+                  <div className="flex items-start gap-3">
+                    <Image
+                      src={item.image || "/placeholder.svg"}
+                      alt={item.name}
+                      width={80}
+                      height={60}
+                      className="rounded object-cover"
+                    />
+                    <div className="flex-1 relative">
+                      <h3 className="font-medium text-sm">{item.name}</h3>
+                      <p className="text-orange-600 font-semibold mt-1 text-sm">
+                        ₦{item.price.toLocaleString()}
+                      </p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="p-1 h-6 w-6"
+                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        >
+                          <Minus className="h-3 w-3" />
+                        </Button>
+                        <span className="w-6 text-center text-sm">{item.quantity}</span>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="p-1 h-6 w-6"
+                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        >
+                          <Plus className="h-3 w-3" />
+                        </Button>
+                      </div>
+                      <div className="mt-2 absolute right-8 top-5">
+                        <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs">
+                          {item.status || "Approved"}
+                        </Badge>
+                      </div>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="text-red-600"
+                      onClick={() => removeItem(item.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
 
             {/* Order Summary */}
             <div>
