@@ -72,7 +72,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Account Type Selection */}
-        <Card className="relative z-10 w-full max-w-md">
+        <Card className="relative z-10 w-full max-w-[620px]">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl">Account Type</CardTitle>
             <p className="text-gray-600">How would you like to use TruckR?</p>
@@ -88,18 +88,18 @@ export default function RegisterPage() {
               <div className="text-center">
                 <div className="text-4xl mb-2">🚛</div>
                 <h3 className="font-semibold">Rent</h3>
-                <p className="text-sm text-gray-600">I want to rent a truck</p>
+                <p className="text-sm text-gray-800">For Personal/indiviidual purpose</p>
               </div>
             </div>
 
             <div
               className="border-2 border-gray-200 rounded-lg p-6 cursor-pointer hover:border-blue-500 transition-colors"
-              onClick={() => handleAccountTypeSelect("list")}
+              onClick={() => handleAccountTypeSelect("business")}
             >
               <div className="text-center">
                 <div className="text-4xl mb-2">📋</div>
                 <h3 className="font-semibold">List</h3>
-                <p className="text-sm text-gray-600">I want to list my truck</p>
+                <p className="text-sm text-gray-800">For Business purposes</p>
               </div>
             </div>
 
@@ -166,7 +166,7 @@ export default function RegisterPage() {
       </div>
 
       {/* Registration Form */}
-      <Card className="relative z-10 w-full max-w-md">
+      <Card className="relative z-10 w-full max-w-[620px]">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">
             {accountType === "business" ? "Business Account" : "Personal Account"}

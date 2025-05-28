@@ -1,3 +1,4 @@
+import Navbar from "@/component/Navbar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -7,61 +8,26 @@ import Link from "next/link"
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-gray-200 font-inter"   style={{
-            backgroundImage:`url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}>
-             <div className="absolute inset-0 bg-black/70"></div>
+    <div className="min-h-screen bg-gray-200 font-inter" style={{
+      backgroundImage: `url('/assets/f54b64a9-5d1d-465d-94e5-33bc97549c39 1.svg')`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}>
+      <div className="absolute inset-0 bg-black/70"></div>
       {/* Header */}
-      <header className="bg-white relative w-full  z-50 border-b text-black">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            {/* <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-sm">Logo</span>
-            </div> */}
-            <Link href="/" className="text-2xl font-bold text-blue-600">
-              TRUCKR
-            </Link>
-          </div>
-
-          <nav className="hidden md:flex space-x-8">
-            <Link href="/rent" className="text-gray-700 hover:text-blue-600 font-medium">
-              Rent
-            </Link>
-            <Link href="/list" className="text-gray-700 hover:text-blue-600 font-medium">
-              List
-            </Link>
-            <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium">
-              About us
-            </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-blue-600 font-medium">
-              Contact Us
-            </Link>
-          </nav>
-
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm" className="relative">
-              <ShoppingCart className="h-5 w-5" />
-            </Button>
-            <Button variant="outline" size="sm" className="px-6">
-              Sign In
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Navbar />
 
       {/* Main Content */}
       <div className="flex items-center justify-center min-h-[calc(100vh-80px)]  p-6">
         <div
           className="w-full max-w-full h-[800px] relative rounded-lg overflow-hidden"
-        
+
         >
-         
+
 
           {/* Login Modal */}
           <div className="absolute inset-0  flex items-center justify-center">
-            <Card className="w-[420px] bg-white shadow-2xl">
+            <Card className="w-[620px] bg-white shadow-2xl">
               <CardHeader className="text-center pb-4">
                 <h2 className="text-xl font-semibold text-gray-900">
                   Login or Register <span className="text-blue-600">on TruckR</span>

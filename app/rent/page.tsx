@@ -87,7 +87,7 @@ export default function RentPage() {
                       height={200}
                       className="w-full h-48 object-cover"
                     />
-                    <Badge className="absolute top-3 left-3 bg-blue-600 text-white px-3 py-1">{truck.condition}</Badge>
+                    <Badge className="absolute top-3 left-3 bg-blue-600 text-white px-3 py-1">{truck.category}</Badge>
                     <Button
                       variant="ghost"
                       size="sm"

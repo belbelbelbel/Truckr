@@ -12,6 +12,8 @@ import { useCartStore } from "@/constant/cart-store"
 import { toast } from "sonner"
 import Navbar from "@/component/Navbar"
 import { PaymentModals } from "@/components/payments-modals"
+import { chunk } from "lodash";
+import React from "react"
 
 // interface TruckDetailPageProps {
 //   params: {
@@ -28,6 +30,7 @@ export default function TruckDetailPage({ params }: any) {
   const [addOns, setAddOns] = useState("Select Date")
   const [showPaymentModal, setShowPaymentModal] = useState(false)
 
+
   const addItem = useCartStore((state) => state.addItem)
 
   const handleRequestTruck = () => {
@@ -38,7 +41,8 @@ export default function TruckDetailPage({ params }: any) {
       return
     }
 
-    // Add to cart
+    
+ 
     addItem({
       id: truck.id,
       name: truck.name,
@@ -58,6 +62,21 @@ export default function TruckDetailPage({ params }: any) {
   const handlePaymentComplete = () => {
     toast.success("Payment completed successfully!")
   }
+
+     const specifications = [
+      { label: "Model", value: "Skyjack - SJ3220RT" },
+      { label: "Year", value: "2020" },
+      { label: "Weight", value: "120 Tons" },
+      { label: "Year", value: "2020" },
+      { label: "Fuel Type", value: "Diesel" },
+      { label: "Transmission", value: "Manual" },
+      { label: "Fuel Tank Capacity", value: "100L" },
+      { label: "Maker", value: "Toyota" },
+    ];
+
+    const chunkedSpecs = chunk(specifications, 2);
+
+    // Add to ca
 
   return (
     <div className="min-h-screen bg-gray-50 font-inter">
@@ -148,33 +167,30 @@ export default function TruckDetailPage({ params }: any) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="grid grid-cols-3 gap-4 py-2 border-b">
-                    <span className="text-gray-600">Model</span>
-                    <span className="text-gray-600">Skyjack - SJ3220RT</span>
-                    <span className="text-gray-600">Year</span>
-                    <span className="font-medium text-black">2020</span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-4 py-2 border-b">
-                    <span className="text-gray-600">Weight</span>
-                    <span className="font-medium text-black">120 Tons</span>
-                    <span className="text-gray-600">Year</span>
-                    <span className="font-medium text-black">2020</span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-4 py-2 border-b">
-                    <span className="text-gray-600">Fuel Type</span>
-                    <span className="font-medium text-black">Diesel</span>
-                    <span className="text-gray-600">Transmission</span>
-                    <span className="font-medium text-black">Manual</span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-4 py-2">
-                    <span className="text-gray-600">Fuel Tank Capacity</span>
-                    <span className="font-medium text-black">100L</span>
-                    <span className="text-gray-600">Maker</span>
-                    <span className="font-medium text-black">Toyota</span>
-                  </div>
+                  {chunkedSpecs.map((row:any, rowIndex:any) => (
+                    <div
+                      key={rowIndex}
+                      className={`grid grid-cols-4 gap-4 py-2 ${rowIndex !== chunkedSpecs.length - 1 ? "border-b" : ""}`}
+                    >
+                      {row.map((item:any, i:any) => (
+                        <React.Fragment key={i}>
+                          <span className="text-gray-600">{item.label}</span>
+                          <span className="font-medium text-black">{item.value}</span>
+                        </React.Fragment>
+                      ))}
+                      {/* If row has only one pair, fill remaining columns */}
+                      {row.length === 1 && (
+                        <>
+                          <span></span>
+                          <span></span>
+                        </>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
+
 
             {/* Features */}
             <Card>
