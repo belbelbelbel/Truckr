@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ShoppingCart, Edit, ChevronRight, User } from "lucide-react"
+import { ShoppingCart, Edit, ChevronRight, User, LogOut } from "lucide-react"
 import Link from "next/link"
 import { ProfileSidebar } from "@/components/shared/sidebar"
 import { useRouter } from "next/navigation"
@@ -52,7 +52,7 @@ export default function SettingsPage() {
   ];
   const bottomItem = {
     label: "Log Out",
-    icon: <span className="text-lg">🚪</span>,
+    icon: <span className="text-lg"> <LogOut className="h-5 w-5" /></span>,
     trailing: <span className="ml-auto">↗</span>,
     action: () => routes.push('/auth/login'),
   };
@@ -135,11 +135,11 @@ export default function SettingsPage() {
                     </Button>
                   </div>
                   {/* Profile indicator */}
-                  <div className="absolute right-16 top-3">
+                  {/* <div className="absolute right-16 top-3">
                     <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                       <span className="text-white text-sm font-bold">O</span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -171,7 +171,7 @@ export default function SettingsPage() {
               </div>
 
               {/* Profile Indicators */}
-              <div className="flex items-center space-x-4 pt-4">
+              {/* <div className="flex items-center space-x-4 pt-4">
                 <div className="flex items-center space-x-2">
                   <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-bold">T</span>
@@ -180,7 +180,7 @@ export default function SettingsPage() {
                     <span className="text-white text-sm font-bold">O</span>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

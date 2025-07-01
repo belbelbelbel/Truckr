@@ -3,7 +3,7 @@
 import Navbar from "@/component/Navbar"
 import { ProfileContent } from "@/components/profilecontent"
 import { RentSidebar } from "@/components/rent-sidebar"
-import { ChevronRight, User } from "lucide-react"
+import { ChevronRight, LogOut, User } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
@@ -46,7 +46,7 @@ export default function ProfilePage() {
 
   const bottomItem = {
     label: "Log Out",
-    icon: <span className="text-lg">🚪</span>,
+    icon: <span className="text-lg"> <LogOut className="h-5 w-5" /></span>,
     trailing: <span className="ml-auto">↗</span>,
     action: () => routes.push('/auth/login'),
   };

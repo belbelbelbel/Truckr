@@ -93,11 +93,11 @@ export function ProfileContent() {
                 onChange={(e) => setFormData((prev) => ({ ...prev, nin: e.target.value }))}
                 className="h-12 border-gray-300 pr-12"
               />
-              <div className="absolute right-3 top-3">
+              {/* <div className="absolute right-3 top-3">
                 <div className="w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center">
                   <span className="text-white text-xs font-bold">T</span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 

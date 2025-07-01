@@ -18,7 +18,7 @@ export function RentSidebar() {
       icon: MessageSquare,
       label: "Messages",
       href: "/messages",
-      badge: 1,
+      badge: null,
     },
     {
       icon: Clock,
@@ -42,7 +42,7 @@ export function RentSidebar() {
       icon: "❓",
       label: "Requests",
       href: "/requests",
-      badge: 1,
+      badge: null,
     },
     {
       icon: "🔄",

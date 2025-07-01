@@ -126,7 +126,7 @@ export default function SavedPage() {
                                 </div>
 
                                 <div className="mt-8 text-center">
-                                    <Link href="/listings/new">
+                                    <Link href="/list/new">
                                         <Button className="bg-blue-600 hover:bg-blue-700 px-8 py-3">Add to Listing</Button>
                                     </Link>
                                 </div>

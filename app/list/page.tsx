@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Plus, Grid3X3, Search, ShoppingCart, User, ChevronRight, Edit, Trash2, X, Check } from "lucide-react"
+import { Plus, Grid3X3, Search, ShoppingCart, User, ChevronRight, Edit, Trash2, X, Check, LogOut } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
@@ -108,7 +108,7 @@ export default function ListingsPage() {
 
   const bottomItem = {
     label: "Log Out",
-    icon: <span className="text-lg">🚪</span>,
+    icon: <span className="text-lg"><LogOut className="h-5 w-5" /></span>,
     trailing: <span className="ml-auto">↗</span>,
     action: () => routes.push('/auth/login'),
   };

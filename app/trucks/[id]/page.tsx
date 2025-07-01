@@ -41,8 +41,8 @@ export default function TruckDetailPage({ params }: any) {
       return
     }
 
-    
- 
+
+
     addItem({
       id: truck.id,
       name: truck.name,
@@ -63,30 +63,32 @@ export default function TruckDetailPage({ params }: any) {
     toast.success("Payment completed successfully!")
   }
 
-     const specifications = [
-      { label: "Model", value: "Skyjack - SJ3220RT" },
-      { label: "Year", value: "2020" },
-      { label: "Weight", value: "120 Tons" },
-      { label: "Year", value: "2020" },
-      { label: "Fuel Type", value: "Diesel" },
-      { label: "Transmission", value: "Manual" },
-      { label: "Fuel Tank Capacity", value: "100L" },
-      { label: "Maker", value: "Toyota" },
-    ];
+  const specifications = [
+    { label: "Model", value: "Skyjack - SJ3220RT" },
+    { label: "Year", value: "2020" },
+    { label: "Weight", value: "120 Tons" },
+    { label: "Year", value: "2020" },
+    { label: "Fuel Type", value: "Diesel" },
+    { label: "Transmission", value: "Manual" },
+    { label: "Fuel Tank Capacity", value: "100L" },
+    { label: "Maker", value: "Toyota" },
+  ];
 
-    const chunkedSpecs = chunk(specifications, 2);
+  const chunkedSpecs = chunk(specifications, 2);
 
-    // Add to ca
+  // Add to ca
 
   return (
     <div className="min-h-screen bg-gray-50 font-inter">
       <Navbar />
+
       <div className="container mx-auto px-6 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             <Card className="overflow-hidden">
               <CardContent className="p-0">
                 <div className="relative">
+                    <div className="text-3xl pl-8 py-2">{truck.name}</div>
                   <Image
                     src={truck.images[selectedImage] || "/placeholder.svg"}
                     alt={truck.name}
@@ -167,12 +169,12 @@ export default function TruckDetailPage({ params }: any) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {chunkedSpecs.map((row:any, rowIndex:any) => (
+                  {chunkedSpecs.map((row: any, rowIndex: any) => (
                     <div
                       key={rowIndex}
                       className={`grid grid-cols-4 gap-4 py-2 ${rowIndex !== chunkedSpecs.length - 1 ? "border-b" : ""}`}
                     >
-                      {row.map((item:any, i:any) => (
+                      {row.map((item: any, i: any) => (
                         <React.Fragment key={i}>
                           <span className="text-gray-600">{item.label}</span>
                           <span className="font-medium text-black">{item.value}</span>

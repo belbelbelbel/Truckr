@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, ChevronRight, User } from "lucide-react"
+import { ShoppingCart, ChevronRight, User, LogOut } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { ProfileSidebar } from "@/components/shared/sidebar"
@@ -82,7 +82,7 @@ export default function SavedPage() {
   ];
   const bottomItem = {
     label: "Log Out",
-    icon: <span className="text-lg">🚪</span>,
+    icon: <span className="text-lg"><LogOut className="h-5 w-5" /></span>,
     trailing: <span className="ml-auto">↗</span>,
     action: () => routes.push('/auth/login'),
   };
@@ -204,7 +204,7 @@ export default function SavedPage() {
                 </div>
 
                 <div className="mt-8 text-center">
-                  <Link href="/listings/new">
+                  <Link href="/list/new">
                     <Button className="bg-blue-600 hover:bg-blue-700 px-8 py-3">Add to Listing</Button>
                   </Link>
                 </div>

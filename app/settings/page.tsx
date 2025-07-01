@@ -57,11 +57,11 @@ export default function SettingsPage() {
                                         </Button>
                                     </div>
                                     {/* Profile indicator */}
-                                    <div className="absolute right-16 top-3">
+                                    {/* <div className="absolute right-16 top-3">
                                         <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                                             <span className="text-white text-sm font-bold">O</span>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
 
@@ -93,7 +93,7 @@ export default function SettingsPage() {
                             </div>
 
                             {/* Profile Indicators */}
-                            <div className="flex items-center space-x-4 pt-4">
+                            {/* <div className="flex items-center space-x-4 pt-4">
                                 <div className="flex items-center space-x-2">
                                     <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
                                         <span className="text-white text-sm font-bold">T</span>
@@ -102,7 +102,7 @@ export default function SettingsPage() {
                                         <span className="text-white text-sm font-bold">O</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
